@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //http://customer360.test/api/users/1 ou quelque chose comme ça
-Route::get('/users/{id}', [UsersController::class, 'show']);
+Route::get('/users/v1/{MSISDN}', [UsersController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
