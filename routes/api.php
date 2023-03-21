@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//http://customer360.test/api/users/1
+//http://customer360.test/api/users/1 ou quelque chose comme ça
 Route::get('/users/{id}', [UsersController::class, 'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
