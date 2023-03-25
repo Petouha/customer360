@@ -38,8 +38,28 @@ class UsersController extends Controller
      */
     public function show($MSISDN)
     {
-        $request = DB::select('SELECT subscribers.firstName, subscribers.lastName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/365) AS Seniority, subscribers.wilaya,subscriptions.MSISDN, subscriptiontypes.commercialName AS Subscriptions_Type FROM (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID ) JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID WHERE subscriptions.MSISDN='.$MSISDN.';');
-        return json_encode($request);
+        //informations about subscriber
+        $subscriberInfo = DB::select('SELECT subscribers.firstName, subscribers.lastName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/365) AS Seniority, subscribers.wilaya,subscriptions.MSISDN, subscriptiontypes.commercialName AS Subscriptions_Type
+        FROM (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID )
+        JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID
+        WHERE subscriptions.MSISDN='.$MSISDN.';');
+
+
+        //eligble packages
+        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price
+        FROM eligble_packages
+        JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
+        JOIN packages ON packages.id = eligble_packages.packageId
+        WHERE subscriptions.MSISDN='. $MSISDN.';');
+
+        $consumption = DB::select('SELECT packages.commercialName AS actual_package, remainingData,remainingOffnet,remainingOnnet,remainingSMS
+        FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
+        JOIN packages ON packages.id = consumptions.packageId
+        WHERE subscriptions.MSISDN ='.$MSISDN.';');
+
+
+        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption];
+        return $returnValue;
     }
 
     /**
@@ -65,4 +85,14 @@ class UsersController extends Controller
     {
         //
     }
+    public function packages($MSISDN)
+    {
+       $request = DB::select('SELECT DISTINCT packages.commercialName, packages.price
+       FROM eligble_packages
+       JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
+       JOIN packages ON packages.id = eligble_packages.packageId
+       WHERE subscriptions.MSISDN='. $MSISDN.';');
+       return json_encode($request);
+    }
 }
+

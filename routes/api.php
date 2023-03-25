@@ -21,6 +21,8 @@ Route::get('/users/v1/{MSISDN}', [UsersController::class, 'show']);
 
 Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
+Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
