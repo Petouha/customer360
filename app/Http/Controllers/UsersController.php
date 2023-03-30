@@ -65,9 +65,18 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function migrate($MSISDN,$subTypeId)//
     {
-        //
+        $subcriptionId=DB::select('SELECT subscriptions.id
+        FROM subscriptions JOIN subscribers ON subscriptions.id = subscribers.id
+        WHERE MSISDN='.$MSISDN.';');
+
+
+
+        DB::select('UPDATE subscriptions
+        SET subscriptionTypeId='.$subTypeId.' WHERE id='.$subcriptionId[0]->id.';');
+
+        DB::select('DELETE FROM consumptions WHERE subscriptionId ='.$subcriptionId[0]->id.';');
     }
 
     /**
