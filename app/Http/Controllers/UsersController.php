@@ -15,7 +15,7 @@ class UsersController extends Controller
     public function showAll()
     {
         $request = DB::select('SELECT subscriptions.MSISDN,subscribers.firstName, subscribers.lastName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/365) AS Seniority, subscribers.wilaya, subscriptiontypes.commercialName AS Subscriptions_Type FROM (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID ) JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID;');
-        return json_encode($request);
+        return response()->json($request);
     }
     /**
      * Show the form for creating a new resource.
@@ -44,9 +44,8 @@ class UsersController extends Controller
         JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID
         WHERE subscriptions.MSISDN='.$MSISDN.';');
 
-
         //eligble packages
-        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price
+        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id
         FROM eligble_packages
         JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
         JOIN packages ON packages.id = eligble_packages.packageId
@@ -59,7 +58,8 @@ class UsersController extends Controller
 
 
         $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption];
-        return $returnValue;
+        // return json_encode($returnValue);
+        return response()->json($returnValue);
     }
 
     /**
@@ -73,9 +73,22 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function activate($MSISDN,$pkgId)
     {
-        //
+        $packageInfo = DB::select('SELECT commercialName, price, voiceOnnet,voiceOffnet,SMS, data
+        FROM packages
+        WHERE id ='.$pkgId.';');
+
+
+
+        $subscriberInfo = DB::select('SELECT id FROM subscriptions WHERE MSISDN = '.$MSISDN.';');
+
+        $return=DB::select('UPDATE consumptions SET packageId='.$pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
+        remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
+        remainingOnnet='.$packageInfo[0]->voiceOnnet.'
+        WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
+
+        return $return;
     }
 
     /**
@@ -92,7 +105,7 @@ class UsersController extends Controller
        JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
        JOIN packages ON packages.id = eligble_packages.packageId
        WHERE subscriptions.MSISDN='. $MSISDN.';');
-       return json_encode($request);
+       return response()->json($request);
     }
 }
 

@@ -16,12 +16,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//http://customer360.test/api/users/1 ou quelque chose comme ça
+//http://customer360.test/api/users/v1/799.. ou quelque chose comme ça
 Route::get('/users/v1/{MSISDN}', [UsersController::class, 'show']);
 
 Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
 Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
+
+Route::get('/users/activate/v1/{MSISDN}&{pkgId}',[UsersController::class, 'activate']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
