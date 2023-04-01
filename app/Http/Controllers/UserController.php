@@ -18,9 +18,13 @@ class UserController extends Controller
 
         $formFields=$request->validate(
             [
-                'name'=>['required','min:4'],
+                'firstName'=>['required'],
+                'lastName'=>['required'],
                 'email'=>['required','email',Rule::unique('users','email')],
-                'password'=>'required|confirmed'
+                'password'=>'required|confirmed|min:4',
+                'registration'=>['required',Rule::unique('users','registration')],
+                'groupId'=>'required',
+                'managerId'
             ]
         );
         $formFields['password']=bcrypt($formFields['password']);
@@ -28,7 +32,6 @@ class UserController extends Controller
         $user= User::create($formFields);
 
 
-        auth()->login($user);
 
         return redirect('/')->with('message', 'created and logged in');
 

@@ -7,19 +7,32 @@
                         </h2>
                         <p class="mb-4">Create an account to post gigs</p>
                     </header>
-
-                    <form action="/users" method="POST">
-                        @csrf
-                        <div class="mb-6">
-                            <label for="name" class="inline-block text-lg mb-2">
-                                Name
+<form action="/users" method="POST">
+                    @csrf
+                    <div class="mb-6">
+                            <label for="firstName" class="inline-block text-lg mb-2">
+                                firstName
                             </label>
                             <input
                                 type="text"
                                 class="border border-gray-200 rounded p-2 w-full"
-                                name="name"
+                                name="firstName"
                             />
-                            @error('name')
+                            @error('firstName')
+                                <span style="background-color: red;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="lastName" class="inline-block text-lg mb-2">
+                                lastName
+                            </label>
+                            <input
+                                type="text"
+                                class="border border-gray-200 rounded p-2 w-full"
+                                name="lastName"
+                            />
+                            @error('lastName')
                                 <span style="background-color: red;">{{ $message }}</span>
                             @enderror
                         </div>
@@ -35,6 +48,47 @@
                             />
                             <!-- Error Example -->
                             @error('email')
+                                <span style="background-color: red;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="registration" class="inline-block text-lg mb-2">
+                                registration
+                            </label>
+                            <input
+                                type="number"
+                                class="border border-gray-200 rounded p-2 w-full"
+                                name="registration"
+                            />
+                            @error('registration')
+                                <span style="background-color: red;">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="groupId" class="inline-block text-lg mb-2">
+                                groupId
+                            </label>
+                            <input
+                                type="number"
+                                class="border border-gray-200 rounded p-2 w-full"
+                                name="groupId"
+                            />
+                            @error('groupId')
+                                <span style="background-color: red;">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="mb-6">
+                            <label for="managerId" class="inline-block text-lg mb-2">
+                                managerId
+                            </label>
+                            <input
+                                type="number"
+                                class="border border-gray-200 rounded p-2 w-full"
+                                name="managerId"
+                            />
+                            @error('managerId')
                                 <span style="background-color: red;">{{ $message }}</span>
                             @enderror
                         </div>
@@ -81,7 +135,6 @@
                                 Sign Up
                             </button>
                         </div>
-
                         <div class="mt-8">
                             <p>
                                 Already have an account?
@@ -90,5 +143,5 @@
                                 >
                             </p>
                         </div>
-                    </form>
+</form>
                 </div>

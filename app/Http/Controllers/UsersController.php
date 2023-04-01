@@ -80,7 +80,7 @@ class UsersController extends Controller
         // Use named parameter binding to delete consumption records based on the subscription ID
         DB::delete('DELETE FROM consumptions WHERE subscriptionId = :id', ['id' => $subscriptionId[0]->id]);
 
-        return redirect('/');
+
     }
 
 
@@ -103,8 +103,6 @@ class UsersController extends Controller
         remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
         remainingOnnet='.$packageInfo[0]->voiceOnnet.'
         WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
-
-        return redirect('/');
     }
 
     /**
