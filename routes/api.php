@@ -23,10 +23,13 @@ Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
 Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
 
-Route::get('/users/activate/v1/{MSISDN}&{pkgId}',[UsersController::class, 'activate']);
+Route::post('/users/activate/v1', [UsersController::class, 'activate']);
 
-Route::get('/users/migrate/v1/{MSISDN}&{subTypeId}',[UsersController::class, 'migrate']);
+Route::post('/users/migrate/v1/',[UsersController::class, 'migrate']);
 //
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+

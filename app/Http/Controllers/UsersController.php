@@ -65,39 +65,46 @@ class UsersController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function migrate($MSISDN,$subTypeId)//
+
+    public function migrate(Request $request)
     {
-        $subcriptionId=DB::select('SELECT subscriptions.id
-        FROM subscriptions JOIN subscribers ON subscriptions.id = subscribers.id
-        WHERE MSISDN='.$MSISDN.';');
+        // Use named parameter binding to select the subscription ID based on the MSISDN value
+        $subscriptionId = DB::select('SELECT subscriptions.id
+            FROM subscriptions JOIN subscribers ON subscriptions.id = subscribers.id
+            WHERE MSISDN = :msisdn', ['msisdn' => $request->MSISDN]);
 
+        // Use named parameter binding to update the subscription type ID based on the subscription ID
+        DB::update('UPDATE subscriptions
+            SET subscriptionTypeId = :subTypeId WHERE id = :id', ['subTypeId' => $request->subTypeId, 'id' => $subscriptionId[0]->id]);
 
+        // Use named parameter binding to delete consumption records based on the subscription ID
+        DB::delete('DELETE FROM consumptions WHERE subscriptionId = :id', ['id' => $subscriptionId[0]->id]);
 
-        DB::select('UPDATE subscriptions
-        SET subscriptionTypeId='.$subTypeId.' WHERE id='.$subcriptionId[0]->id.';');
-
-        DB::select('DELETE FROM consumptions WHERE subscriptionId ='.$subcriptionId[0]->id.';');
+        return redirect('/');
     }
+
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function activate($MSISDN,$pkgId)
+    public function activate(Request $request)
     {
+
         $packageInfo = DB::select('SELECT commercialName, price, voiceOnnet,voiceOffnet,SMS, data
         FROM packages
-        WHERE id ='.$pkgId.';');
+        WHERE id ='.$request->pkgId.';');
 
 
 
-        $subscriberInfo = DB::select('SELECT id FROM subscriptions WHERE MSISDN = '.$MSISDN.';');
+        $subscriberInfo = DB::select('SELECT id FROM subscriptions WHERE MSISDN = '.$request->MSISDN.';');
 
-        $return=DB::select('UPDATE consumptions SET packageId='.$pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
+        $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
         remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
         remainingOnnet='.$packageInfo[0]->voiceOnnet.'
         WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
 
-        return $return;
+        return redirect('/');
     }
 
     /**

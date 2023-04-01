@@ -1,7 +1,47 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
-$query=DB::table('users')->get();
-?>
 
-@json($query)
+?>
+@auth
+
+
+<ul style="display: flexbox;">
+    <li>
+    <span class="font-bold uppercase">
+
+        Welcome{{ auth()->user()->name }}
+    </span>
+    </li>
+    <form action="/logout" class="inline" method="POST">
+        @csrf
+        <button type="submit">
+        logout
+        </button>
+    </form>
+    <li>
+
+    </li>
+</ul>
+@else
+<div>
+    <a href="/register" >
+        Register
+    </a>
+</div>
+
+<div>
+    <a href="/login" >
+        login
+    </a>
+</div>
+@endauth
+
+<form action="/api/users/migrate/v1" method="POST">
+    @csrf
+    <input type="number" name="MSISDN" id="MSISDN">
+    <input type="number" name="subTypeId" id="subTypeId">
+    <button type="submit">
+        submit
+    </button>
+</form>
