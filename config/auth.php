@@ -41,9 +41,14 @@ return [
             'provider' => 'users',
         ],
         'api' => [
-            'driver' => 'passport',
-            'provider' => 'users',
+            'driver' => 'token',
+            'provider' => 'users'
+
          ],
+         'santcum' => [
+            'driver' => 'token',
+            'provider' => 'users'
+        ],
     ],
 
     /*

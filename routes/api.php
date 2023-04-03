@@ -17,19 +17,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //http://customer360.test/api/users/v1/799.. ou quelque chose comme ça
-Route::get('/users/v1/{MSISDN}', [UsersController::class, 'show']);
+
 
 Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
 Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
 
-Route::post('/users/activate/v1', [UsersController::class, 'activate']);
+Route::post('/users/activate/v1', [UsersController::class, 'activate'])->middleware('auth:sanctum');
 
-Route::post('/users/migrate/v1/',[UsersController::class, 'migrate']);
+Route::post('/users/migrate/v1/',[UsersController::class, 'migrate'])->middleware('auth:sanctum');
 //
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+//public routes
+
+Route::post('/login',
+[AuthController::class, 'login']);
+
+Route::post('/register',
+[AuthController::class, 'register']);
+
+//protected routes
+Route::get('/users/v1/{MSISDN}',
+        [UsersController::class, 'show'])->middleware('auth:sanctum');
+
+Route::post('/logout',
+[AuthController::class, 'logout']);
 

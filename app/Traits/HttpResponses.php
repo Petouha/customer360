@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 /**
- * 
+ *
  */
 trait HttpResponses
 {
@@ -15,7 +15,7 @@ trait HttpResponses
             'data' => $data
         ], $code);
     }
-    
+
     protected function error ($data, $message = null, $code)
     {
         return response()->json([

@@ -99,10 +99,20 @@ class UsersController extends Controller
 
         $subscriberInfo = DB::select('SELECT id FROM subscriptions WHERE MSISDN = '.$request->MSISDN.';');
 
+        $condition=DB::select("SELECT * FROM consumptions WHERE subscriptionID = ".$subscriberInfo[0]->id);
+
+        if($condition==null)
+        {
+            $return=DB::select("INSERT INTO consumptions
+            (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
+            VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+        }
+        else{
         $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
         remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
         remainingOnnet='.$packageInfo[0]->voiceOnnet.'
         WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
+        }
     }
 
     /**

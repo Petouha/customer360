@@ -8,7 +8,7 @@
                         <p class="mb-4">Login</p>
                     </header>
 
-                    <form action="/users/authenticate" method="POST">
+                    <form action="/api/login" method="POST">
                         @csrf
 
 

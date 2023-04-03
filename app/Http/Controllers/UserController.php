@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class UserController extends Controller
 {
     public function create() {
-        return view('register');
+        return view('register1');
     }
 
     public function store(Request $request) {
