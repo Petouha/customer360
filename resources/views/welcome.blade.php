@@ -36,7 +36,7 @@ use Illuminate\Support\Facades\DB;
     </a>
 </div>
 @endauth
-
+<h1>Migration</h1>
 <form action="/api/users/migrate/v1" method="POST">
     @csrf
     <input type="number" name="MSISDN" id="MSISDN">
@@ -45,3 +45,7 @@ use Illuminate\Support\Facades\DB;
         submit
     </button>
 </form>
+
+<p>get
+    <button><a href="/api/users/v1/799554386">Here</a></button>
+</p>

@@ -23,27 +23,27 @@ Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
 Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
 
-Route::post('/users/activate/v1', [UsersController::class, 'activate'])->middleware('auth:sanctum');
+Route::post('/users/activate/v1', [UsersController::class, 'activate'])->middleware('auth');
 
-Route::post('/users/migrate/v1/',[UsersController::class, 'migrate'])->middleware('auth:sanctum');
+Route::post('/users/migrate/v1/',[UsersController::class, 'migrate'])->middleware('auth');
 //
+Route::get('/users/v1/{MSISDN}',
+        [UsersController::class, 'show'])->middleware('auth');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('login')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 //public routes
 
-Route::post('/login',
-[AuthController::class, 'login']);
+// Route::post('/login',
+// [AuthController::class, 'login']);
 
-Route::post('/register',
-[AuthController::class, 'register']);
+// Route::post('/register',
+// [AuthController::class, 'register']);
 
-//protected routes
-Route::get('/users/v1/{MSISDN}',
-        [UsersController::class, 'show'])->middleware('auth:sanctum');
 
-Route::post('/logout',
-[AuthController::class, 'logout']);
+
+// Route::post('/logout',
+// [AuthController::class, 'logout']);
 

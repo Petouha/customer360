@@ -17,12 +17,22 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-// Route::get('/register',[UserController::class,'create']);
 
-// Route::post('/users', [UserController::class, 'store']);
 
-// Route::post('/logout', [UserController::class, 'logout']);
 
-// Route::get('/login',[UserController::class,'login'])->name('login');
 
-// Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+
+
+
+
+//lOGIN ROUTES
+
+Route::get('/login',[UserController::class,'login'])->name('login');
+
+Route::post('/users/authenticate', [UserController::class, 'authenticate']);
+
+Route::get('/register',[UserController::class,'create']);
+
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
+Route::post('/users', [UserController::class, 'store']);
