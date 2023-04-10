@@ -131,5 +131,14 @@ class UsersController extends Controller
        WHERE subscriptions.MSISDN='. $MSISDN.';');
        return response()->json($request);
     }
+
+    public function reclamations($MSISDN)
+    {
+        $request = DB::select("SELECT dateReclamation, reclamationText
+        FROM reclamations JOIN subscriptions ON subscriptions.id=idSubscription
+        JOIN subscribers ON subscriptions.subscriberId = subscribers.id
+        WHERE MSISDN=".$MSISDN.";");
+        return response()->json($request);
+    }
 }
 

@@ -46,6 +46,18 @@ use Illuminate\Support\Facades\DB;
     </button>
 </form>
 
+<h1>Activation</h1>
+<form action="/api/users/activate/v1" method="POST">
+    @csrf
+    <input type="number" name="MSISDN" id="MSISDN">
+    <input type="number" name="pkgId" id="subTypeId">
+    <button type="submit">
+        submit
+    </button>
+</form>
+
+
 <p>get
     <button><a href="/api/users/v1/799554386">Here</a></button>
 </p>
+

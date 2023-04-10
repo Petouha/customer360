@@ -19,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 //http://customer360.test/api/users/v1/799.. ou quelque chose comme ça
 
 
+
+
 Route::get('/users/v1',[UsersController::class, 'showAll'] );
 
 Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
@@ -29,6 +31,10 @@ Route::post('/users/migrate/v1/',[UsersController::class, 'migrate'])->middlewar
 //
 Route::get('/users/v1/{MSISDN}',
         [UsersController::class, 'show'])->middleware('auth');
+
+
+Route::get('/users/reclamations/v1/{MSISDN}',[UsersController::class,'reclamations']);
+
 
 Route::middleware('login')->get('/user', function (Request $request) {
     return $request->user();
