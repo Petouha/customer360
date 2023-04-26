@@ -1,0 +1,20 @@
+"773133654"
+"774125230"
+"778811898"
+"778981247"
+"779797539"
+"791117861"
+"793706779"
+"798997585"
+
+essayez sur postman :
+/api/v1/users/793706779
+
+après essayez de migrer wela activer avec
+/api/v1/users/activate
+/api/v1/users/migrate
+
+en utilisant l'onglet body pour mettre les informations necessaires
+
+après essayez de la même manière le login avec:
+/api/v1/login
