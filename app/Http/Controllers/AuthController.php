@@ -36,7 +36,7 @@ class AuthController extends Controller
             {
                 $json = 
                 [
-                    'status' =>  true,
+                    'auth' =>  true,
                     'message' => 'authenticated' 
                 ];
                 return response()->json($json);
@@ -44,7 +44,7 @@ class AuthController extends Controller
             else {
                 $json = 
                 [
-                    'status' =>  false,
+                    'auth' =>  false,
                     'message' => 'Access Denied' 
                 ];
                 return response()->json($json);
@@ -53,7 +53,7 @@ class AuthController extends Controller
         else{
             return response()->json(
             [
-                'status' =>  false,
+                'auth' =>  false,
                 'message' => 'Credentials do not match' 
             ]);
         }
