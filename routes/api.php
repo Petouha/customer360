@@ -16,34 +16,34 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-//http://customer360.test/api/users/v1/799.. ou quelque chose comme ça
+//http://customer360.test/apiv1/users/799.. ou quelque chose comme ça
 
 
 
 
-Route::get('/users/v1',[UsersController::class, 'showAll'] );
+Route::get('v1/users',[UsersController::class, 'showAll'] );
 
-Route::get('/users/packages/v1/{MSISDN}', [UsersController::class, 'packages']);
+Route::get('v1/users/packages/{MSISDN}', [UsersController::class, 'packages']);
 
-Route::post('/users/activate/v1', [UsersController::class, 'activate'])->middleware('auth');
+Route::post('v1/users/activate', [UsersController::class, 'activate']);
 
-Route::post('/users/migrate/v1/',[UsersController::class, 'migrate'])->middleware('auth');
+Route::post('v1/users/migrate/',[UsersController::class, 'migrate']);
 //
-Route::get('/users/v1/{MSISDN}',
-        [UsersController::class, 'show'])->middleware('auth');
+Route::get('v1/users/{MSISDN}',
+        [UsersController::class, 'show']);
 
 
-Route::get('/users/reclamations/v1/{MSISDN}',[UsersController::class,'reclamations']);
+Route::get('v1/users/reclamations/{MSISDN}',[UsersController::class,'reclamations']);
 
 
 Route::middleware('login')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//public routes
 
-// Route::post('/login',
-// [AuthController::class, 'login']);
+//using the AuthController
+Route::post('v1/login',
+[AuthController::class, 'login']);
 
 // Route::post('/register',
 // [AuthController::class, 'register']);

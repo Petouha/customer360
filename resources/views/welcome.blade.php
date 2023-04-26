@@ -37,7 +37,7 @@ use Illuminate\Support\Facades\DB;
 </div>
 @endauth
 <h1>Migration</h1>
-<form action="/api/users/migrate/v1" method="POST">
+<form action="/api/v1/users/migrate" method="POST">
     @csrf
     <input type="number" name="MSISDN" id="MSISDN">
     <input type="number" name="subTypeId" id="subTypeId">
@@ -47,7 +47,7 @@ use Illuminate\Support\Facades\DB;
 </form>
 
 <h1>Activation</h1>
-<form action="/api/users/activate/v1" method="POST">
+<form action="/api/v1/users/activate" method="POST">
     @csrf
     <input type="number" name="MSISDN" id="MSISDN">
     <input type="number" name="pkgId" id="subTypeId">
@@ -58,6 +58,7 @@ use Illuminate\Support\Facades\DB;
 
 
 <p>get
-    <button><a href="/api/users/v1/799554386">Here</a></button>
+    <input type="number" >
+    <button><a href="/api/v1/users/799554386">Here</a></button>
 </p>
 

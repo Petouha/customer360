@@ -62,11 +62,14 @@ class UserController extends Controller
                 'password'=>'required'
             ]
         );
-
+        $group = DB::select("SELECT groupId FROM users JOIN groups ON groups.id=users.groupId WHERE email ='".$request->email."';");
         if (auth()->attempt($formFields)) {
+            if ($group[0]->groupId == 1) {
             $request->session()->regenerate();
 
             return redirect('/');
+            }
+            return back();
         }
 
         return back()->withErrors(['email' => 'Invalid'])

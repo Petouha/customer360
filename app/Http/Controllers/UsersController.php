@@ -39,10 +39,14 @@ class UsersController extends Controller
     public function show($MSISDN)
     {
         //informations about subscriber
-        $subscriberInfo = DB::select('SELECT subscribers.firstName, subscribers.lastName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/365) AS Seniority, subscribers.wilaya,subscriptions.MSISDN, subscriptiontypes.commercialName AS Subscriptions_Type
-        FROM (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID )
-        JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID
-        WHERE subscriptions.MSISDN='.$MSISDN.';');
+        $subscriberInfo = DB::select("SELECT CONCAT(subscribers.firstName,' ',subscribers.lastName) AS fullName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/12) AS Seniority,
+        subscribers.wilaya,subscriptions.MSISDN, subscriptiontypes.commercialName AS Subscriptions_Type,
+        -ROUND(DATEDIFF(subscribers.dateBirth, CURRENT_DATE)/365) AS Age,
+        behaviours.sex, behaviours.lineType FROM
+        (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID ) 
+        JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID 
+        JOIN behaviours ON behaviours.MSISDN = subscriptions.MSISDN 
+        WHERE subscriptions.MSISDN=".$MSISDN.";");
 
         //eligble packages
         $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id
@@ -50,7 +54,7 @@ class UsersController extends Controller
         JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
         JOIN packages ON packages.id = eligble_packages.packageId
         WHERE subscriptions.MSISDN='. $MSISDN.';');
-
+        //current package and consumption
         $consumption = DB::select('SELECT packages.commercialName AS actual_package, remainingData,remainingOffnet,remainingOnnet,remainingSMS
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId

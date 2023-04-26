@@ -37,6 +37,5 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 Route::post('/users', [UserController::class, 'store']);
 
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
