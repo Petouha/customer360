@@ -119,6 +119,12 @@ class UsersController extends Controller
                 remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
                 remainingOnnet='.$packageInfo[0]->voiceOnnet.'
                 WHERE subscriptionId ='.$subscriberInfo[0]->id.' AND packageId='.$request->pkgId.';');
+                //substract the price from balance
+                $return=DB::select("UPDATE subscriptions
+                SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
+                WHERE subscriptions.MSISDN =".$request->MSISDN.";");
+
+
                 return response()->json(
                     [
                         'success' =>  true,
@@ -128,12 +134,13 @@ class UsersController extends Controller
                     }
             }
 
+
             $return=DB::select("INSERT INTO consumptions
             (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
             VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."'
             ,'".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
 
-
+            //substract the price from balance
             $return=DB::select("UPDATE subscriptions
             SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
             WHERE subscriptions.MSISDN =".$request->MSISDN.";");
