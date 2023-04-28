@@ -42,10 +42,10 @@ class UsersController extends Controller
         $subscriberInfo = DB::select("SELECT CONCAT(subscribers.firstName,' ',subscribers.lastName) AS fullName, -ROUND(DATEDIFF(subscribers.contractDate, CURRENT_DATE)/12) AS Seniority,
         subscribers.wilaya,subscriptions.MSISDN, subscriptiontypes.commercialName AS Subscriptions_Type,
         -ROUND(DATEDIFF(subscribers.dateBirth, CURRENT_DATE)/365) AS Age,
-        behaviours.sex, behaviours.lineType FROM
-        (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID ) 
-        JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID 
-        JOIN behaviours ON behaviours.MSISDN = subscriptions.MSISDN 
+        behaviours.sex, behaviours.lineType, subscriptions.balance FROM
+        (subscribers JOIN subscriptions ON subscribers.id = subscriptions.subscriberID )
+        JOIN subscriptiontypes ON subscriptiontypes.id = subscriptions.subscriptionTypeID
+        JOIN behaviours ON behaviours.MSISDN = subscriptions.MSISDN
         WHERE subscriptions.MSISDN=".$MSISDN.";");
 
         //eligble packages
@@ -101,21 +101,38 @@ class UsersController extends Controller
 
 
 
-        $subscriberInfo = DB::select('SELECT id FROM subscriptions WHERE MSISDN = '.$request->MSISDN.';');
-
+        $subscriberInfo = DB::select('SELECT id, balance FROM subscriptions WHERE MSISDN = '.$request->MSISDN.';');
         $condition=DB::select("SELECT * FROM consumptions WHERE subscriptionID = ".$subscriberInfo[0]->id);
 
-        if($condition==null)
-        {
-            $return=DB::select("INSERT INTO consumptions
-            (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
-            VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+        if ($subscriberInfo[0]->balance >= $packageInfo[0]->price) {
+            if($condition==null)
+            {
+                $return=DB::select("INSERT INTO consumptions
+                (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
+                VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+            }
+            else
+            {
+            $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
+            remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
+            remainingOnnet='.$packageInfo[0]->voiceOnnet.'
+            WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
+            }
+            $return=DB::select("UPDATE subscriptions
+            SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
+            WHERE subscriptions.MSISDN =".$request->MSISDN.";");
+            return response()->json(
+                [
+                    'success' =>  true,
+                    'message' => 'Activation done successfully'
+                ]);
         }
-        else{
-        $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
-        remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
-        remainingOnnet='.$packageInfo[0]->voiceOnnet.'
-        WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
+        else {
+            return response()->json(
+                [
+                    'success' =>  false,
+                    'message' => "Client doesn't have enough credit"
+                ]);
         }
     }
 
