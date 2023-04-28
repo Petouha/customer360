@@ -55,10 +55,11 @@ class UsersController extends Controller
         JOIN packages ON packages.id = eligble_packages.packageId
         WHERE subscriptions.MSISDN='. $MSISDN.';');
         //current package and consumption
-        $consumption = DB::select('SELECT packages.commercialName AS actual_package, remainingData,remainingOffnet,remainingOnnet,remainingSMS
+        $consumption = DB::select('SELECT packages.commercialName AS packageName, remainingData,remainingOffnet,remainingOnnet,remainingSMS
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE subscriptions.MSISDN ='.$MSISDN.';');
+        WHERE subscriptions.MSISDN ='.$MSISDN.'
+        ORDER BY consumptions.dateActivation DESC LIMIT 3;');
 
 
         $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption];
@@ -107,25 +108,32 @@ class UsersController extends Controller
         if ($subscriberInfo[0]->balance >= $packageInfo[0]->price) {
             if($condition==null)
             {
-                $return=DB::select("INSERT INTO consumptions
-                (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
-                VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+
             }
-            else
-            {
-            $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
-            remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
-            remainingOnnet='.$packageInfo[0]->voiceOnnet.'
-            WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
-            }
+            $return=DB::select("INSERT INTO consumptions
+            (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
+            VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+            // else
+            // {
+            // $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
+            // remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
+            // remainingOnnet='.$packageInfo[0]->voiceOnnet.'
+            // WHERE subscriptionId ='.$subscriberInfo[0]->id.';');
+            // }
+
             $return=DB::select("UPDATE subscriptions
             SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
             WHERE subscriptions.MSISDN =".$request->MSISDN.";");
+
+
+
+
             return response()->json(
                 [
                     'success' =>  true,
                     'message' => 'Activation done successfully'
                 ]);
+
         }
         else {
             return response()->json(
