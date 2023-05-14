@@ -61,8 +61,11 @@ class UsersController extends Controller
         WHERE subscriptions.MSISDN ='.$MSISDN.'
         ORDER BY consumptions.dateActivation DESC LIMIT 3;');
 
+        $behaviours = DB::select("SELECT behaviours.MSISDN, valueSegment,valueSegmentInterval,behaviorSegments,churnRisk,subscriptions.balance
+        FROM behaviours JOIN subscriptions ON behaviours.MSISDN = subscriptions.MSISDN
+        WHERE behaviours.MSISDN=".$MSISDN.";");
 
-        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption];
+        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours];
         // return json_encode($returnValue);
         return response()->json($returnValue);
     }
