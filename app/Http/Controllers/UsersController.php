@@ -58,14 +58,19 @@ class UsersController extends Controller
         $consumption = DB::select('SELECT packages.commercialName AS packageName, remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE subscriptions.MSISDN ='.$MSISDN.'
+        WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL 30 DAY) > CURRENT_DATE
         ORDER BY consumptions.dateActivation DESC LIMIT 3;');
 
         $behaviours = DB::select("SELECT behaviours.MSISDN, valueSegment,valueSegmentInterval,behaviorSegments,churnRisk,subscriptions.balance
         FROM behaviours JOIN subscriptions ON behaviours.MSISDN = subscriptions.MSISDN
         WHERE behaviours.MSISDN=".$MSISDN.";");
 
-        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours];
+        $history = DB::select("SELECT dateActivation, packages.commercialName
+        FROM consumptions JOIN subscriptions ON consumptions.subscriptionId = subscriptions.id
+        JOIN packages ON packages.id = consumptions.packageId
+        WHERE  subscriptions.MSISDN =".$MSISDN." AND DATE_ADD(dateActivation, INTERVAL 30 DAY) < CURRENT_DATE;");
+
+        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours, 'history' => $history];
         // return json_encode($returnValue);
         return response()->json($returnValue);
     }
