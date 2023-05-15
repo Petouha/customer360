@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3307
--- Généré le : mer. 26 avr. 2023 à 15:20
+-- Généré le : lun. 15 mai 2023 à 15:34
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -37,30 +37,30 @@ CREATE TABLE `behaviours` (
   `ageYears` int(11) NOT NULL,
   `years` int(11) NOT NULL,
   `months` int(11) NOT NULL,
-  `valueSegment` varchar(100) NOT NULL,
-  `valueSegmentIcon` varchar(100) NOT NULL,
-  `valueSegmentInterval` varchar(100) NOT NULL DEFAULT '',
-  `behaviorSegments` varchar(100) NOT NULL,
-  `behaviorSegmentDescription` int(11) NOT NULL,
-  `behaviorSegmentIcon` int(11) NOT NULL,
+  `valueSegment` varchar(100) DEFAULT NULL,
+  `valueSegmentIcon` varchar(100) DEFAULT NULL,
+  `valueSegmentInterval` varchar(100) DEFAULT '',
+  `behaviorSegments` varchar(100) DEFAULT NULL,
+  `behaviorSegmentDescription` int(11) DEFAULT NULL,
+  `behaviorSegmentIcon` int(11) DEFAULT NULL,
   `churnRisk` set('Low Risk','Medium Risk','High Risk') NOT NULL,
-  `churnRiskIcon` int(11) NOT NULL,
-  `ticketCreationDate` varchar(100) NOT NULL DEFAULT 'No Complaint',
+  `churnRiskIcon` int(11) DEFAULT NULL,
+  `ticketCreationDate` varchar(100) DEFAULT 'No Complaint',
   `ticketClosedDate` varchar(100) NOT NULL DEFAULT 'No Complaint',
   `ticketStatus` varchar(100) NOT NULL DEFAULT 'No Complaint',
-  `ticketName` int(11) NOT NULL,
-  `nomCommercialOffre1Hyb` varchar(100) NOT NULL,
-  `nomCommercialOffre1Post` varchar(100) NOT NULL,
-  `nomCommercialOffre2Hyb` varchar(100) NOT NULL,
-  `nomCommercialOffre2Post` varchar(100) NOT NULL,
-  `subscriptionTypeCodeOffre1Hyb` int(11) NOT NULL,
-  `subscriptionTypeCodeOffre1Post` int(11) NOT NULL,
-  `subscriptionTypeCodeOffre2Hyb` int(11) NOT NULL,
-  `subscriptionTypeCodeOffre2Post` int(11) NOT NULL,
-  `recurrentPackageCodeOffre1Hyb` int(11) NOT NULL,
-  `recurrentPackageCodeOffre1Post` int(11) NOT NULL,
-  `recurrentPackageCodeOffre2Hyb` int(11) NOT NULL,
-  `recurrentPackageCodeOffre2Post` int(11) NOT NULL
+  `ticketName` int(11) DEFAULT NULL,
+  `nomCommercialOffre1Hyb` varchar(100) DEFAULT NULL,
+  `nomCommercialOffre1Post` varchar(100) DEFAULT NULL,
+  `nomCommercialOffre2Hyb` varchar(100) DEFAULT NULL,
+  `nomCommercialOffre2Post` varchar(100) DEFAULT NULL,
+  `subscriptionTypeCodeOffre1Hyb` int(11) DEFAULT NULL,
+  `subscriptionTypeCodeOffre1Post` int(11) DEFAULT NULL,
+  `subscriptionTypeCodeOffre2Hyb` int(11) DEFAULT NULL,
+  `subscriptionTypeCodeOffre2Post` int(11) DEFAULT NULL,
+  `recurrentPackageCodeOffre1Hyb` int(11) DEFAULT NULL,
+  `recurrentPackageCodeOffre1Post` int(11) DEFAULT NULL,
+  `recurrentPackageCodeOffre2Hyb` int(11) DEFAULT NULL,
+  `recurrentPackageCodeOffre2Post` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -73,9 +73,12 @@ INSERT INTO `behaviours` (`MSISDN`, `sex`, `globalProfile`, `lineType`, `wilaya`
 (778811898, 'male', 'New Hayla Maxi Prepaid_4G (NewHAYLAMAXI)', '4G', 'GUELMA', '', 37, 0, 5, 'High Value', '', '4G', 'Mostly Data Offnet (Competitors Sociable Savvy)', 0, 0, 'Low Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
 (778981247, 'male', 'New Hayla Bezzef Prepaid_4G (NewHAYLABEZZEF)', '4G', '', 'Phablet', 20, 0, 2, 'NEW', '', '4G', 'New Customer', 0, 0, 'Low Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
 (779797539, 'female', 'New Hayla Bezzef Prepaid_4G (NewHAYLABEZZEF)', '4G', 'BATNA', 'Smartphone', 24, 0, 1, 'NEW', '', '4G', 'New Customer', 0, 0, 'Low Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
+(790959980, 'male', 'New Hayla Maxi Prepaid_4G (NewHAYLAMAXI)', '4G', 'SIDI BEL ABBES', 'Smartphone', 53, 10, 0, NULL, NULL, '4G', NULL, NULL, NULL, 'Medium Risk', NULL, 'No Complaint', 'No Complaint', 'No Complaint', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (791117861, 'male', 'New Hayla Maxi Prepaid_4G (NewHAYLAMAXI)', '4G', '', '', 27, 0, 0, '', '', '4G', 'New Customer', 0, 0, 'Low Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
 (793706779, 'female', 'New Hayla Bezzef Prepaid_4G (NewHAYLABEZZEF)', '4G', 'DJELFA', '', 64, 0, 0, '', '', '4G', 'New Customer', 0, 0, 'Low Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
-(798997585, 'male', 'Hayla Maxi Prepaid_4G (MAXIHAYLAPREPAID)', '4G', 'ANNABA', 'Phablet', 21, 2, 10, 'Very Low Value', '', '4G', 'Mostly Data Offnet (Competitors Sociable Savvy)', 0, 0, 'High Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0);
+(793831117, 'female', 'New Hayla Bezzef Prepaid_4G (NewHAYLABEZZEF)', '4G', 'ALGER', 'Smartphone', 20, 1, 11, NULL, NULL, '4G', NULL, NULL, NULL, 'High Risk', NULL, 'No Complaint', 'No Complaint', 'No Complaint', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(798997585, 'male', 'Hayla Maxi Prepaid_4G (MAXIHAYLAPREPAID)', '4G', 'ANNABA', 'Phablet', 21, 2, 10, 'Very Low Value', '', '4G', 'Mostly Data Offnet (Competitors Sociable Savvy)', 0, 0, 'High Risk', 0, 'No Complaint', 'No Complaint', 'No Complaint', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0),
+(799554386, 'male', 'New Hayla Bezzef Prepaid_4G (NewHAYLABEZZEF)', '4G', 'ALGER', 'Smartphone', 20, 3, 9, 'High Value', '', '4G', 'Mostly Bundles', 0, 0, 'High Risk', 0, '', '', '', 0, '', '', '', '', 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -84,25 +87,31 @@ INSERT INTO `behaviours` (`MSISDN`, `sex`, `globalProfile`, `lineType`, `wilaya`
 --
 
 CREATE TABLE `consumptions` (
+  `id` int(11) NOT NULL,
   `subscriptionId` int(11) NOT NULL,
   `packageId` int(11) NOT NULL,
-  `remainingSMS` int(11) DEFAULT NULL,
+  `remainingSMS` int(11) NOT NULL,
   `remainingData` float NOT NULL,
   `remainingOffnet` float NOT NULL,
-  `remainingOnnet` float DEFAULT NULL
+  `remainingOnnet` float NOT NULL,
+  `dateActivation` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `consumptions`
 --
 
-INSERT INTO `consumptions` (`subscriptionId`, `packageId`, `remainingSMS`, `remainingData`, `remainingOffnet`, `remainingOnnet`) VALUES
-(1, 6, 0, 60, 7000, 0),
-(12, 13, 99999, 7, 750, 44640),
-(13, 5, 99999, 3, 750, 44640),
-(14, 8, 99999, 10, 1500, 44640),
-(15, 4, 99999, 2, 300, 44640),
-(17, 8, 99999, 10, 1500, 44640);
+INSERT INTO `consumptions` (`id`, `subscriptionId`, `packageId`, `remainingSMS`, `remainingData`, `remainingOffnet`, `remainingOnnet`, `dateActivation`) VALUES
+(11, 1, 7, 99999, 25, 2000, 44640, '2023-04-28 15:51:04'),
+(12, 1, 8, 99999, 10, 1500, 44640, '2023-04-28 15:52:37'),
+(13, 1, 6, 99999, 60, 7000, 44640, '2023-04-28 17:54:46'),
+(14, 1, 1, 99999, 0.5, 150, 44640, '2023-04-28 18:11:22'),
+(15, 17, 7, 99999, 25, 2000, 44640, '2023-05-15 14:08:11'),
+(16, 3, 7, 99999, 25, 2000, 44640, '2023-04-12 14:09:13'),
+(17, 3, 7, 99999, 25, 2000, 44640, '2023-03-12 14:09:13'),
+(18, 3, 7, 99999, 25, 2000, 44640, '2023-01-12 14:09:13'),
+(19, 16, 7, 99999, 25, 2000, 44640, '2023-05-15 14:15:35'),
+(20, 3, 8, 99999, 10, 1500, 44640, '2023-05-15 14:28:07');
 
 -- --------------------------------------------------------
 
@@ -216,6 +225,20 @@ INSERT INTO `reclamations` (`id`, `reclamationText`, `dateReclamation`, `idSubsc
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `sales`
+--
+
+CREATE TABLE `sales` (
+  `userId` int(11) NOT NULL,
+  `MSISDN` int(11) NOT NULL,
+  `packageId` int(11) NOT NULL,
+  `price` int(11) NOT NULL,
+  `dateSale` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `segments`
 --
 
@@ -288,33 +311,34 @@ CREATE TABLE `subscriptions` (
   `id` int(11) NOT NULL,
   `subscriptionTypeId` int(11) NOT NULL,
   `subscriberId` int(11) NOT NULL,
-  `MSISDN` int(11) NOT NULL
+  `MSISDN` int(11) NOT NULL,
+  `balance` float NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `subscriptions`
 --
 
-INSERT INTO `subscriptions` (`id`, `subscriptionTypeId`, `subscriberId`, `MSISDN`) VALUES
-(1, 3, 2, 799554386),
-(2, 4, 3, 790959980),
-(3, 3, 4, 793831117),
-(4, 3, 6, 742297006),
-(5, 4, 10, 770348596),
-(6, 3, 8, 759906803),
-(7, 3, 5, 750867811),
-(8, 3, 9, 761023824),
-(9, 7, 1, 760717438),
-(10, 3, 7, 795503613),
-(11, 4, 11, 799402345),
-(12, 4, 12, 778811898),
-(13, 3, 13, 773133654),
-(14, 3, 14, 774125230),
-(15, 3, 15, 778981247),
-(16, 3, 16, 779797539),
-(17, 3, 17, 791117861),
-(18, 3, 18, 793706779),
-(19, 4, 19, 798997585);
+INSERT INTO `subscriptions` (`id`, `subscriptionTypeId`, `subscriberId`, `MSISDN`, `balance`) VALUES
+(1, 3, 2, 799554386, 10000),
+(2, 4, 3, 790959980, 0),
+(3, 3, 4, 793831117, 1360),
+(4, 3, 6, 742297006, 0),
+(5, 4, 10, 770348596, 0),
+(6, 3, 8, 759906803, 0),
+(7, 3, 5, 750867811, 0),
+(8, 3, 9, 761023824, 0),
+(9, 7, 1, 760717438, 0),
+(10, 3, 7, 795503613, 0),
+(11, 4, 11, 799402345, 0),
+(12, 4, 12, 778811898, 0),
+(13, 3, 13, 773133654, 0),
+(14, 3, 14, 774125230, 0),
+(15, 3, 15, 778981247, 0),
+(16, 3, 16, 779797539, 3500),
+(17, 3, 17, 791117861, 100),
+(18, 3, 18, 793706779, 0),
+(19, 4, 19, 798997585, 0);
 
 -- --------------------------------------------------------
 
@@ -387,8 +411,9 @@ ALTER TABLE `behaviours`
 -- Index pour la table `consumptions`
 --
 ALTER TABLE `consumptions`
-  ADD PRIMARY KEY (`subscriptionId`,`packageId`),
-  ADD KEY `packageId` (`packageId`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `packageId` (`packageId`),
+  ADD KEY `subscriptionId` (`subscriptionId`);
 
 --
 -- Index pour la table `eligble_packages`
@@ -416,6 +441,14 @@ ALTER TABLE `packages`
 ALTER TABLE `reclamations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `idSubscription` (`idSubscription`);
+
+--
+-- Index pour la table `sales`
+--
+ALTER TABLE `sales`
+  ADD KEY `userId` (`userId`),
+  ADD KEY `MSISDN` (`MSISDN`),
+  ADD KEY `packageId` (`packageId`);
 
 --
 -- Index pour la table `segments`
@@ -457,6 +490,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT pour les tables déchargées
 --
+
+--
+-- AUTO_INCREMENT pour la table `consumptions`
+--
+ALTER TABLE `consumptions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT pour la table `groups`
@@ -535,6 +574,14 @@ ALTER TABLE `packages`
 --
 ALTER TABLE `reclamations`
   ADD CONSTRAINT `reclamations_ibfk_1` FOREIGN KEY (`idSubscription`) REFERENCES `subscriptions` (`id`);
+
+--
+-- Contraintes pour la table `sales`
+--
+ALTER TABLE `sales`
+  ADD CONSTRAINT `sales_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `sales_ibfk_2` FOREIGN KEY (`MSISDN`) REFERENCES `subscriptions` (`MSISDN`),
+  ADD CONSTRAINT `sales_ibfk_3` FOREIGN KEY (`packageId`) REFERENCES `packages` (`id`);
 
 --
 -- Contraintes pour la table `subscriptions`
