@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeesController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\Middleware;
@@ -28,6 +29,10 @@ Route::get('v1/users/packages/{MSISDN}', [UsersController::class, 'packages']);
 Route::post('v1/users/activate', [UsersController::class, 'activate']);
 
 Route::post('v1/users/migrate/',[UsersController::class, 'migrate']);
+
+Route::put('v1/employees/sale', [EmployeesController::class,'makeSale']);
+
+Route::post('v1/employees/info',[EmployeesController::class,'show']);
 //
 Route::get('v1/users/{MSISDN}',
         [UsersController::class, 'show']);
