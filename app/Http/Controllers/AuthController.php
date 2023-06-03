@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use Dirape\Token\Token;
+
 
 class AuthController extends Controller
 {
@@ -34,16 +36,23 @@ class AuthController extends Controller
         {
             if ($group[0]->groupId == 1) 
             {
+                $user = DB::select("SELECT * 
+                FROM users WHERE email ='".$request->email."';");
+                $tokenGenerator = new Token();
+                $token = $tokenGenerator->random(64);
                 $json = 
                 [
                     'auth' =>  true,
-                    'message' => 'authenticated' 
+                    'message' => 'authenticated',
+                    'email'=>$request->email,
+                    'token' => $token
                 ];
                 return response()->json($json);
             }
             else {
                 $json = 
                 [
+
                     'auth' =>  false,
                     'message' => 'Access Denied' 
                 ];
