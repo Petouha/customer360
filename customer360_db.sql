@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3307
--- Généré le : sam. 03 juin 2023 à 20:38
+-- Généré le : lun. 05 juin 2023 à 00:31
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -244,19 +244,19 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`idSale`, `userId`, `MSISDN`, `operationId`, `price`, `dateSale`, `saleType`) VALUES
-(4, 1, 799554386, 5, 500, '2023-06-03 17:32:31', 'Migration'),
-(5, 1, 799554386, 5, 500, '2023-06-03 17:32:41', 'Migration'),
-(6, 1, 799554386, 5, 500, '2023-06-03 17:32:55', 'Migration'),
-(7, 1, 799554386, 5, 500, '2023-06-03 17:33:20', 'Migration'),
-(10, 1, 799554386, 5, 500, '2023-06-03 17:33:58', 'Migration'),
-(11, 1, 799554386, 5, 500, '2023-06-03 17:34:07', 'Migration'),
-(12, 1, 799554386, 5, 500, '2023-06-03 17:34:12', 'Migration'),
-(13, 1, 799554386, 5, 500, '2023-06-03 17:34:21', 'Migration'),
-(14, 1, 799554386, 5, 500, '2023-06-03 17:34:24', 'Migration'),
-(15, 1, 799554386, 5, 500, '2023-06-03 17:34:55', 'Migration'),
-(16, 1, 799554386, 5, 500, '2023-06-03 17:35:02', 'Migration'),
-(18, 1, 799554386, 5, 500, '2023-06-03 17:35:19', 'Migration'),
-(19, 1, 799554386, 5, 500, '2023-06-03 17:59:00', 'Activation');
+(4, 1, 799554386, 5, 500, '2023-06-03 16:32:31', 'Migration'),
+(5, 1, 799554386, 5, 500, '2023-06-03 16:32:41', 'Migration'),
+(6, 1, 799554386, 5, 500, '2023-06-03 16:32:55', 'Migration'),
+(7, 1, 799554386, 5, 500, '2023-06-03 16:33:20', 'Migration'),
+(10, 1, 799554386, 5, 500, '2023-06-03 16:33:58', 'Migration'),
+(11, 1, 799554386, 5, 500, '2023-06-03 16:34:07', 'Migration'),
+(12, 1, 799554386, 5, 500, '2023-06-03 16:34:12', 'Migration'),
+(13, 1, 799554386, 5, 500, '2023-06-03 16:34:21', 'Migration'),
+(14, 1, 799554386, 5, 500, '2023-06-03 16:34:24', 'Migration'),
+(15, 1, 799554386, 5, 500, '2023-06-03 16:34:55', 'Migration'),
+(16, 1, 799554386, 5, 500, '2023-06-03 16:35:02', 'Migration'),
+(18, 1, 799554386, 5, 500, '2023-06-03 16:35:19', 'Migration'),
+(19, 1, 799554386, 5, 0, '2023-06-03 16:59:00', 'Activation');
 
 -- --------------------------------------------------------
 
@@ -406,18 +406,19 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `groupId` int(10) NOT NULL,
-  `managerId` int(10) DEFAULT NULL
+  `lastLogin` timestamp NULL DEFAULT NULL,
+  `previousLogin` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
-INSERT INTO `users` (`id`, `firstName`, `lastName`, `registration`, `email`, `password`, `groupId`, `managerId`) VALUES
-(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, NULL),
-(2, 'test', 'testets', 568, 'test@gmail.com', '$2y$10$ig.eT9yaB/F5ZMVM4UWp4eNWJ/G9veN1m3J.dY1/b39SxJ5vDYe8O', 1, NULL),
-(3, 'area', 'jhaeufhuaie', 4579, 'yes@gmail.com', '$2y$10$QaRC7xJRCcgGLTmDY3Kuhe0.rf6o1QfpwzMiL0/aSY0jeYaPRF5c2', 1, NULL),
-(5, 'Test', 'test again', 111, 'api@gmail.com', '$2y$10$mYOocjD.U8UPvxnDrG0ojey0xCrBTOYBhxybswBqbj7sd1l8uigvO', 1, NULL);
+INSERT INTO `users` (`id`, `firstName`, `lastName`, `registration`, `email`, `password`, `groupId`, `lastLogin`, `previousLogin`) VALUES
+(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, '2023-06-04 21:58:14', '2023-06-04 22:54:32'),
+(2, 'test', 'testets', 568, 'test@gmail.com', '$2y$10$ig.eT9yaB/F5ZMVM4UWp4eNWJ/G9veN1m3J.dY1/b39SxJ5vDYe8O', 1, NULL, NULL),
+(3, 'area', 'jhaeufhuaie', 4579, 'yes@gmail.com', '$2y$10$QaRC7xJRCcgGLTmDY3Kuhe0.rf6o1QfpwzMiL0/aSY0jeYaPRF5c2', 1, NULL, NULL),
+(5, 'Test', 'test again', 111, 'api@gmail.com', '$2y$10$mYOocjD.U8UPvxnDrG0ojey0xCrBTOYBhxybswBqbj7sd1l8uigvO', 1, NULL, NULL);
 
 --
 -- Index pour les tables déchargées
@@ -507,7 +508,6 @@ ALTER TABLE `subscriptiontypes`
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `email` (`email`),
-  ADD KEY `managerId` (`managerId`),
   ADD KEY `groupId` (`groupId`);
 
 --
@@ -629,7 +629,6 @@ ALTER TABLE `subscriptiontypes`
 -- Contraintes pour la table `users`
 --
 ALTER TABLE `users`
-  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`managerId`) REFERENCES `users` (`id`),
   ADD CONSTRAINT `users_ibfk_2` FOREIGN KEY (`groupId`) REFERENCES `groups` (`id`);
 COMMIT;
 

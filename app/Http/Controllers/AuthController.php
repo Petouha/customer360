@@ -28,33 +28,37 @@ class AuthController extends Controller
             'password'=>'required'
         ]
     );
-        $group = DB::select("SELECT groupId 
-        FROM users JOIN groups ON groups.id=users.groupId 
+        $group = DB::select("SELECT groupId
+        FROM users JOIN groups ON groups.id=users.groupId
         WHERE email ='".$request->email."';");
 
-        if (auth()->attempt($formFields)) 
+        if (auth()->attempt($formFields))
         {
-            if ($group[0]->groupId == 1) 
+            if ($group[0]->groupId == 1)
             {
-                $user = DB::select("SELECT * 
+                $user = DB::select("SELECT *
                 FROM users WHERE email ='".$request->email."';");
                 $tokenGenerator = new Token();
                 $token = $tokenGenerator->random(64);
-                $json = 
+                $json =
                 [
                     'auth' =>  true,
                     'message' => 'authenticated',
                     'email'=>$request->email,
                     'token' => $token
                 ];
+                DB::select("UPDATE `users`
+                SET `previousLogin` = `lastLogin`, `lastLogin` = current_timestamp()
+                WHERE `email` = '".$request->email."';
+                ");
                 return response()->json($json);
             }
             else {
-                $json = 
+                $json =
                 [
 
                     'auth' =>  false,
-                    'message' => 'Access Denied' 
+                    'message' => 'Access Denied'
                 ];
                 return response()->json($json);
             }
@@ -63,7 +67,7 @@ class AuthController extends Controller
             return response()->json(
             [
                 'auth' =>  false,
-                'message' => 'Credentials do not match' 
+                'message' => 'Credentials do not match'
             ]);
         }
     }
