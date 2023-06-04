@@ -233,7 +233,7 @@ CREATE TABLE `sales` (
   `idSale` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `MSISDN` int(11) NOT NULL,
-  `operationId` int(11) NOT NULL,
+  `operationId` int(11) NULL,
   `price` int(11) NOT NULL,
   `dateSale` timestamp NOT NULL DEFAULT current_timestamp(),
   `saleType` enum('Migration','Activation') NOT NULL
