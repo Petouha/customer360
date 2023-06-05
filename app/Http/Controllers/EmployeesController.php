@@ -33,19 +33,24 @@ class EmployeesController extends Controller
     public function makeSale(Request $request)
     {
         $price = 0;
+        $userId = DB::select("SELECT id From users WHERE email = '".$request->email."';");
         if(($request->saleType) == "Activation")
         {
             $price = DB::select("SELECT price, commercialName FROM packages WHERE id =".$request->operationId.";");
             $price=$price[0]->price;
         }
         $info=DB::select("INSERT INTO sales (userId, MSISDN, operationId, price, dateSale,saleType)
-        VALUES (".$request->userId.",".$request->MSISDN.",".$request->operationId.",".$price.",current_timestamp(),'".$request->saleType."');");
+        VALUES (".$userId[0]->id.",".$request->MSISDN.",".$request->operationId.",".$price.",current_timestamp(),'".$request->saleType."');");
         if (count($info) == 0) {
             return response()->json(
                 [
                     'success' =>  true,
                     'message' => 'Sale registered'
                 ]);
-        }
+        } else return response()->json(
+            [
+                'success' =>  false,
+                'message' => 'Error'
+            ]);
     }
 }

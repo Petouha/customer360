@@ -49,7 +49,7 @@ class UsersController extends Controller
         WHERE subscriptions.MSISDN=".$MSISDN.";");
 
         //eligble packages
-        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id
+        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id, packages.SMS, packages.data, packages.voiceOffnet, packages.voiceOnnet
         FROM eligble_packages
         JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
         JOIN packages ON packages.id = eligble_packages.packageId
