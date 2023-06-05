@@ -130,6 +130,9 @@ class UsersController extends Controller
                 (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet, isActive)
                 VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."',1);");
 
+                $return=DB::select("UPDATE subscriptions
+                SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
+                WHERE subscriptions.MSISDN =".$request->MSISDN.";");
 
                 return response()->json(
                     [
