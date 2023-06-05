@@ -55,10 +55,10 @@ class UsersController extends Controller
         JOIN packages ON packages.id = eligble_packages.packageId
         WHERE subscriptions.MSISDN='. $MSISDN.';');
         //current package and consumption
-        $consumption = DB::select('SELECT packages.commercialName AS packageName, remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
+        $consumption = DB::select('SELECT packages.id, packages.commercialName AS packageName, remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL 30 DAY) > CURRENT_DATE
+        WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL 30 DAY) > CURRENT_DATE AND isActive = 1
         ORDER BY consumptions.dateActivation DESC LIMIT 3;');
 
         $behaviours = DB::select("SELECT behaviours.MSISDN, valueSegment,valueSegmentInterval,behaviorSegments,churnRisk,subscriptions.balance
@@ -68,7 +68,7 @@ class UsersController extends Controller
         $history = DB::select("SELECT dateActivation, packages.commercialName
         FROM consumptions JOIN subscriptions ON consumptions.subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE  subscriptions.MSISDN =".$MSISDN." AND DATE_ADD(dateActivation, INTERVAL 30 DAY) < CURRENT_DATE;");
+        WHERE  subscriptions.MSISDN =".$MSISDN." AND isActive = 0;");
 
         $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours, 'history' => $history];
         // return json_encode($returnValue);
@@ -115,7 +115,7 @@ class UsersController extends Controller
 
 
 
-        $condition=DB::select("SELECT packageId FROM consumptions WHERE subscriptionID = ".$subscriberInfo[0]->id);
+        $condition=DB::select("SELECT packageId, isActive FROM consumptions WHERE isActive = 1 AND subscriptionID = ".$subscriberInfo[0]->id);
         if ($subscriberInfo[0]->balance >= $packageInfo[0]->price)
         {
 
@@ -123,14 +123,12 @@ class UsersController extends Controller
             {
                 if($cond->packageId == $request->pkgId)
                     {
-                 $return=DB::select('UPDATE consumptions SET packageId='.$request->pkgId.',remainingSMS='.$packageInfo[0]->SMS.',
-                remainingData='.$packageInfo[0]->data.',remainingOffnet='.$packageInfo[0]->voiceOffnet.',
-                remainingOnnet='.$packageInfo[0]->voiceOnnet.'
+                $return=DB::select('UPDATE consumptions SET isActive = 0
                 WHERE subscriptionId ='.$subscriberInfo[0]->id.' AND packageId='.$request->pkgId.';');
                 //substract the price from balance
-                $return=DB::select("UPDATE subscriptions
-                SET balance = ".($subscriberInfo[0]->balance -$packageInfo[0]->price)."
-                WHERE subscriptions.MSISDN =".$request->MSISDN.";");
+                $return=DB::select("INSERT INTO consumptions
+                (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet, isActive)
+                VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."','".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."',1);");
 
 
                 return response()->json(
@@ -144,9 +142,9 @@ class UsersController extends Controller
 
 
             $return=DB::select("INSERT INTO consumptions
-            (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet)
+            (subscriptionId, packageId, remainingSMS, remainingData, remainingOffnet, remainingOnnet, isActive)
             VALUES ('".$subscriberInfo[0]->id."','".$request->pkgId."','".$packageInfo[0]->SMS."'
-            ,'".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."');");
+            ,'".$packageInfo[0]->data."','".$packageInfo[0]->voiceOffnet."','".$packageInfo[0]->voiceOnnet."',1);");
 
             //substract the price from balance
             $return=DB::select("UPDATE subscriptions
