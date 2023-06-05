@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3307
--- Généré le : lun. 05 juin 2023 à 00:31
+-- Généré le : lun. 05 juin 2023 à 18:29
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -94,25 +94,32 @@ CREATE TABLE `consumptions` (
   `remainingData` float NOT NULL,
   `remainingOffnet` float NOT NULL,
   `remainingOnnet` float NOT NULL,
-  `dateActivation` datetime NOT NULL DEFAULT current_timestamp()
+  `dateActivation` datetime NOT NULL DEFAULT current_timestamp(),
+  `isActive` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `consumptions`
 --
 
-INSERT INTO `consumptions` (`id`, `subscriptionId`, `packageId`, `remainingSMS`, `remainingData`, `remainingOffnet`, `remainingOnnet`, `dateActivation`) VALUES
-(11, 1, 7, 99999, 25, 2000, 44640, '2023-04-28 15:51:04'),
-(12, 1, 8, 99999, 10, 1500, 44640, '2023-04-28 15:52:37'),
-(13, 1, 6, 99999, 60, 7000, 44640, '2023-04-28 17:54:46'),
-(14, 1, 1, 99999, 0.5, 150, 44640, '2023-04-28 18:11:22'),
-(15, 17, 7, 99999, 25, 2000, 44640, '2023-05-15 14:08:11'),
-(16, 3, 7, 99999, 25, 2000, 44640, '2023-04-12 14:09:13'),
-(17, 3, 7, 99999, 25, 2000, 44640, '2023-03-12 14:09:13'),
-(18, 3, 7, 99999, 25, 2000, 44640, '2023-01-12 14:09:13'),
-(19, 16, 7, 99999, 25, 2000, 44640, '2023-05-15 14:15:35'),
-(20, 3, 8, 99999, 10, 1500, 44640, '2023-05-15 14:28:07'),
-(21, 1, 5, 99999, 3, 750, 44640, '2023-06-03 18:12:54');
+INSERT INTO `consumptions` (`id`, `subscriptionId`, `packageId`, `remainingSMS`, `remainingData`, `remainingOffnet`, `remainingOnnet`, `dateActivation`, `isActive`) VALUES
+(11, 1, 7, 99999, 25, 2000, 44640, '2023-04-28 15:51:04', 0),
+(12, 1, 8, 99999, 10, 1500, 44640, '2023-04-28 15:52:37', 0),
+(13, 1, 6, 99999, 60, 7000, 44640, '2023-06-05 14:03:27', 1),
+(14, 1, 1, 99999, 0.5, 150, 44640, '2023-04-28 18:11:22', 0),
+(15, 17, 7, 99999, 25, 2000, 44640, '2023-05-15 14:08:11', 0),
+(16, 3, 7, 99999, 25, 2000, 44640, '2023-04-12 14:09:13', 0),
+(17, 3, 7, 99999, 25, 2000, 44640, '2023-03-12 14:09:13', 0),
+(18, 3, 7, 99999, 25, 2000, 44640, '2023-01-12 14:09:13', 0),
+(19, 16, 7, 99999, 25, 2000, 44640, '2023-05-15 14:15:35', 0),
+(20, 3, 8, 99999, 10, 1500, 44640, '2023-05-15 14:28:07', 1),
+(21, 1, 5, 99999, 3, 750, 44640, '2023-06-03 18:12:54', 0),
+(22, 1, 4, 99999, 2, 300, 44640, '2023-06-05 13:54:22', 1),
+(23, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:35', 0),
+(24, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:39', 0),
+(25, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:40', 0),
+(26, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:39:24', 1),
+(27, 1, 5, 99999, 3, 750, 44640, '2023-06-05 14:57:43', 1);
 
 -- --------------------------------------------------------
 
@@ -233,7 +240,7 @@ CREATE TABLE `sales` (
   `idSale` int(11) NOT NULL,
   `userId` int(11) NOT NULL,
   `MSISDN` int(11) NOT NULL,
-  `operationId` int(11) NULL,
+  `operationId` int(11) DEFAULT NULL,
   `price` int(11) NOT NULL,
   `dateSale` timestamp NOT NULL DEFAULT current_timestamp(),
   `saleType` enum('Migration','Activation') NOT NULL
@@ -256,7 +263,8 @@ INSERT INTO `sales` (`idSale`, `userId`, `MSISDN`, `operationId`, `price`, `date
 (15, 1, 799554386, 5, 500, '2023-06-03 16:34:55', 'Migration'),
 (16, 1, 799554386, 5, 500, '2023-06-03 16:35:02', 'Migration'),
 (18, 1, 799554386, 5, 500, '2023-06-03 16:35:19', 'Migration'),
-(19, 1, 799554386, 5, 0, '2023-06-03 16:59:00', 'Activation');
+(19, 1, 799554386, 5, 0, '2023-06-03 16:59:00', 'Activation'),
+(31, 1, 750867811, 12, 1500, '2023-06-04 22:36:26', 'Activation');
 
 -- --------------------------------------------------------
 
@@ -342,7 +350,7 @@ CREATE TABLE `subscriptions` (
 --
 
 INSERT INTO `subscriptions` (`id`, `subscriptionTypeId`, `subscriberId`, `MSISDN`, `balance`) VALUES
-(1, 3, 2, 799554386, 9500),
+(1, 3, 2, 799554386, 22300),
 (2, 4, 3, 790959980, 0),
 (3, 3, 4, 793831117, 1360),
 (4, 3, 6, 742297006, 0),
@@ -415,7 +423,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `registration`, `email`, `password`, `groupId`, `lastLogin`, `previousLogin`) VALUES
-(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, '2023-06-04 21:58:14', '2023-06-04 22:54:32'),
+(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, '2023-06-05 14:36:58', '2023-06-05 14:35:28'),
 (2, 'test', 'testets', 568, 'test@gmail.com', '$2y$10$ig.eT9yaB/F5ZMVM4UWp4eNWJ/G9veN1m3J.dY1/b39SxJ5vDYe8O', 1, NULL, NULL),
 (3, 'area', 'jhaeufhuaie', 4579, 'yes@gmail.com', '$2y$10$QaRC7xJRCcgGLTmDY3Kuhe0.rf6o1QfpwzMiL0/aSY0jeYaPRF5c2', 1, NULL, NULL),
 (5, 'Test', 'test again', 111, 'api@gmail.com', '$2y$10$mYOocjD.U8UPvxnDrG0ojey0xCrBTOYBhxybswBqbj7sd1l8uigvO', 1, NULL, NULL);
@@ -518,7 +526,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `consumptions`
 --
 ALTER TABLE `consumptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT pour la table `groups`
@@ -542,7 +550,7 @@ ALTER TABLE `reclamations`
 -- AUTO_INCREMENT pour la table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT pour la table `segments`
