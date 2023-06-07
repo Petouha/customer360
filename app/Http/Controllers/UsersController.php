@@ -49,13 +49,13 @@ class UsersController extends Controller
         WHERE subscriptions.MSISDN=".$MSISDN.";");
 
         //eligble packages
-        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id, packages.SMS, packages.data, packages.voiceOffnet, packages.voiceOnnet
+        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id,packages.packageType, packages.SMS, packages.data, packages.voiceOffnet, packages.voiceOnnet
         FROM eligble_packages
         JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
         JOIN packages ON packages.id = eligble_packages.packageId
         WHERE subscriptions.MSISDN='. $MSISDN.';');
         //current package and consumption
-        $consumption = DB::select('SELECT packages.id, packages.commercialName AS packageName, remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
+        $consumption = DB::select('SELECT packages.id, packages.commercialName AS packageName,packages.packageType,remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
         WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL 30 DAY) > CURRENT_DATE AND isActive = 1
@@ -192,7 +192,7 @@ class UsersController extends Controller
 
     public function reclamations($MSISDN)
     {
-        $request = DB::select("SELECT dateReclamation, reclamationText
+        $request = DB::select("SELECT CONCAT(subscribers.firstName,' ',subscribers.lastName) AS fullName,dateReclamation, reclamationText
         FROM reclamations JOIN subscriptions ON subscriptions.id=idSubscription
         JOIN subscribers ON subscriptions.subscriberId = subscribers.id
         WHERE MSISDN=".$MSISDN.";");
