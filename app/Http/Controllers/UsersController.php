@@ -49,16 +49,16 @@ class UsersController extends Controller
         WHERE subscriptions.MSISDN=".$MSISDN.";");
 
         //eligble packages
-        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id,packages.packageType, packages.SMS, packages.data, packages.voiceOffnet, packages.voiceOnnet
+        $packages = DB::select('SELECT DISTINCT packages.commercialName, packages.price, packages.id,packages.packageType, packages.SMS, packages.data, packages.voiceOffnet, packages.voiceOnnet, packages.duration
         FROM eligble_packages
         JOIN subscriptions ON eligble_packages.subscriptionTypeId = subscriptions.subscriptionTypeId
         JOIN packages ON packages.id = eligble_packages.packageId
         WHERE subscriptions.MSISDN='. $MSISDN.';');
         //current package and consumption
-        $consumption = DB::select('SELECT packages.id, packages.commercialName AS packageName,packages.packageType,remainingData,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL 30 DAY) AS expirationDate
+        $consumption = DB::select('SELECT packages.id, packages.commercialName AS packageName,packages.packageType,remainingData,packages.duration ,remainingOffnet,remainingOnnet,remainingSMS, DATE_ADD(dateActivation, INTERVAL packages.duration DAY) AS expirationDate
         FROM consumptions JOIN subscriptions ON subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL 30 DAY) > CURRENT_DATE AND isActive = 1
+        WHERE subscriptions.MSISDN ='.$MSISDN.' AND DATE_ADD(dateActivation, INTERVAL packages.duration DAY) > CURRENT_TIMESTAMP AND isActive = 1
         ORDER BY consumptions.dateActivation DESC LIMIT 3;');
 
         $behaviours = DB::select("SELECT behaviours.MSISDN, valueSegment,valueSegmentInterval,behaviorSegments,churnRisk,subscriptions.balance
@@ -68,7 +68,7 @@ class UsersController extends Controller
         $history = DB::select("SELECT dateActivation, packages.commercialName
         FROM consumptions JOIN subscriptions ON consumptions.subscriptionId = subscriptions.id
         JOIN packages ON packages.id = consumptions.packageId
-        WHERE  subscriptions.MSISDN =".$MSISDN." AND isActive = 0;");
+        WHERE  subscriptions.MSISDN =".$MSISDN." AND (isActive = 0 OR DATE_ADD(dateActivation, INTERVAL packages.duration DAY) < CURRENT_TIMESTAMP);");
 
         $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours, 'history' => $history];
         // return json_encode($returnValue);
