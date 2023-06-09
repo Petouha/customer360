@@ -70,7 +70,13 @@ class UsersController extends Controller
         JOIN packages ON packages.id = consumptions.packageId
         WHERE  subscriptions.MSISDN =".$MSISDN." AND (isActive = 0 OR DATE_ADD(dateActivation, INTERVAL packages.duration DAY) < CURRENT_TIMESTAMP);");
 
-        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours, 'history' => $history];
+        $subtype = DB::select("SELECT commercialName, subscriptiontypes.id
+        FROM subscriptiontypes JOIN segments ON segmentID = segments.id
+        WHERE segments.segmentType = 'B2C' AND subscriptiontypes.id NOT IN (SELECT subscriptiontypes.id
+        FROM subscriptiontypes JOIN subscriptions ON subscriptiontypes.id= subscriptions.subscriptionTypeId
+        WHERE subscriptions.MSISDN = ".$MSISDN.");");
+
+        $returnValue = ['subscriber_info'=>$subscriberInfo,'eligble_packages'=>$packages, 'subscribers_consumption'=>$consumption,'subscriber_behaviour'=>$behaviours, 'history' => $history, 'subscription_type'=>$subtype];
         // return json_encode($returnValue);
         return response()->json($returnValue);
     }
