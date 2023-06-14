@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:3307
--- Généré le : mer. 07 juin 2023 à 21:13
+-- Généré le : jeu. 15 juin 2023 à 00:33
 -- Version du serveur : 10.4.27-MariaDB
 -- Version de PHP : 8.2.0
 
@@ -103,37 +103,15 @@ CREATE TABLE `consumptions` (
 --
 
 INSERT INTO `consumptions` (`id`, `subscriptionId`, `packageId`, `remainingSMS`, `remainingData`, `remainingOffnet`, `remainingOnnet`, `dateActivation`, `isActive`) VALUES
-(11, 1, 7, 99999, 25, 2000, 44640, '2023-04-28 15:51:04', 0),
-(12, 1, 8, 99999, 10, 1500, 44640, '2023-04-28 15:52:37', 0),
-(13, 1, 6, 99999, 60, 7000, 44640, '2023-06-05 14:03:27', 0),
-(14, 1, 1, 99999, 0.5, 150, 44640, '2023-04-28 18:11:22', 0),
 (15, 17, 7, 99999, 25, 2000, 44640, '2023-05-15 14:08:11', 0),
 (16, 3, 7, 99999, 25, 2000, 44640, '2023-04-12 14:09:13', 0),
 (17, 3, 7, 99999, 25, 2000, 44640, '2023-03-12 14:09:13', 0),
 (18, 3, 7, 99999, 25, 2000, 44640, '2023-01-12 14:09:13', 0),
 (19, 16, 7, 99999, 25, 2000, 44640, '2023-05-15 14:15:35', 0),
 (20, 3, 8, 99999, 10, 1500, 44640, '2023-05-15 14:28:07', 1),
-(21, 1, 5, 99999, 3, 750, 44640, '2023-06-03 18:12:54', 0),
-(22, 1, 4, 99999, 2, 300, 44640, '2023-06-05 13:54:22', 0),
-(23, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:35', 0),
-(24, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:39', 0),
-(25, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:26:40', 0),
-(26, 1, 8, 99999, 10, 1500, 44640, '2023-06-05 14:39:24', 1),
-(27, 1, 5, 99999, 3, 750, 44640, '2023-06-05 14:57:43', 0),
-(28, 1, 1, 99999, 0.5, 150, 44640, '2023-06-05 18:44:54', 0),
-(29, 1, 1, 99999, 0.5, 150, 44640, '2023-06-05 18:45:03', 0),
-(30, 1, 4, 99999, 2, 300, 44640, '2023-06-05 18:54:06', 0),
-(31, 1, 4, 99999, 2, 300, 44640, '2023-06-05 18:55:09', 0),
-(32, 1, 4, 99999, 2, 300, 44640, '2023-06-05 18:55:45', 1),
-(33, 1, 1, 99999, 0.5, 150, 44640, '2023-06-05 18:56:54', 0),
-(34, 1, 1, 99999, 0.5, 150, 44640, '2023-06-05 18:58:40', 1),
-(35, 1, 6, 99999, 51.2, 7000, 44640, '2023-06-06 00:23:47', 1),
-(36, 1, 7, 99999, 4.98, 2000, 44640, '2023-06-06 00:23:58', 1),
-(37, 1, 5, 99999, 3, 750, 44640, '2023-06-06 00:24:12', 0),
-(38, 1, 5, 99999, 3, 750, 44640, '2023-06-06 00:25:23', 0),
-(39, 1, 5, 99999, 0.79, 750, 44640, '2023-06-06 00:28:15', 1),
 (40, 16, 6, 99999, 60, 7000, 44640, '2023-06-07 11:22:57', 1),
-(41, 1, 1, 99999, 0.5, 150, 44640, '2023-06-06 19:15:33', 1);
+(44, 2, 10, 99999, 60, 4000, 44640, '2023-06-09 20:47:14', 1),
+(45, 2, 13, 99999, 7, 750, 44640, '2023-06-09 20:47:25', 1);
 
 -- --------------------------------------------------------
 
@@ -157,13 +135,31 @@ INSERT INTO `eligble_packages` (`subscriptionTypeId`, `packageId`) VALUES
 (3, 6),
 (3, 7),
 (3, 8),
+(3, 16),
+(3, 17),
+(3, 18),
+(3, 19),
 (4, 9),
 (4, 10),
 (4, 11),
 (4, 12),
 (4, 13),
+(4, 20),
+(4, 21),
+(4, 22),
+(4, 23),
 (5, 14),
-(5, 15);
+(5, 15),
+(5, 24),
+(5, 25),
+(5, 26),
+(5, 27),
+(5, 28),
+(5, 29),
+(6, 30),
+(6, 31),
+(6, 32),
+(6, 33);
 
 -- --------------------------------------------------------
 
@@ -197,9 +193,9 @@ CREATE TABLE `packages` (
   `packageType` enum('BUNDLE','DATA','J4Y') NOT NULL,
   `price` float NOT NULL,
   `duration` int(11) NOT NULL,
-  `voiceOnnet` float NOT NULL DEFAULT 0,
+  `voiceOnnet` float DEFAULT 0,
   `voiceOffnet` float DEFAULT NULL,
-  `SMS` int(11) NOT NULL DEFAULT 0,
+  `SMS` int(11) DEFAULT 0,
   `data` float DEFAULT NULL,
   `subcriptionTypeID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -221,7 +217,25 @@ INSERT INTO `packages` (`id`, `packageCode`, `commercialName`, `packageType`, `p
 (12, 'NEWHAYLA1500MAX', 'HAYLA MAXI 1500', 'BUNDLE', 1500, 30, 44640, 2000, 99999, 25, 4),
 (13, 'NEWHAYLA500MAX', 'HAYLA MAXI 500', 'BUNDLE', 500, 15, 44640, 750, 99999, 7, 4),
 (14, 'low100Value', 'Djezzy ZID 100', 'BUNDLE', 100, 1, 44640, 150, 99999, 1, 5),
-(15, 'low1000Value', 'Djezzy ZID 1000', 'BUNDLE', 1000, 30, 44640, 1300, 99999, 10, 5);
+(15, 'low1000Value', 'Djezzy ZID 1000', 'BUNDLE', 1000, 30, 44640, 1300, 99999, 10, 5),
+(16, 'HAYLABEZZAFDATA500', 'HAYLA BEZZAF DATA 500', 'DATA', 500, 30, NULL, NULL, NULL, 6, 3),
+(17, 'HAYLABEZZAFDATA1000', 'HAYLA BEZZAF DATA 1000', 'DATA', 1000, 30, NULL, NULL, NULL, 15, 3),
+(18, 'HAYLABEZZAFDATA1500', 'HAYLA BEZZAF DATA 1500', 'DATA', 1500, 30, NULL, NULL, NULL, 30, 3),
+(19, 'HAYLABEZZAFDATA2000', 'HAYLA BEZZAF DATA 2000', 'DATA', 2000, 30, NULL, NULL, NULL, 60, 3),
+(20, 'HAYLAMAXIDATA1500', 'HAYLA MAXI DATA 1500', 'DATA', 1500, 30, NULL, NULL, NULL, 30, 4),
+(21, 'HAYLAMAXIDATA2000', 'HAYLA MAXI DATA 2000', 'DATA', 2000, 30, NULL, NULL, NULL, 60, 4),
+(22, 'HAYLAMAXIDATA500', 'HAYLA MAXI DATA 500', 'DATA', 500, 30, NULL, NULL, NULL, 6, 4),
+(23, 'HAYLAMAXIDATA1000', 'HAYLA MAXI DATA 1000', 'DATA', 1000, 30, NULL, NULL, NULL, 15, 4),
+(24, 'ZIDDATA500', 'DJEZZY ZID DATA 500', 'DATA', 500, 6, NULL, NULL, NULL, 30, 5),
+(25, 'ZIDDATA1000', 'DJEZZY ZID DATA 1000', 'DATA', 1000, 30, NULL, NULL, NULL, 15, 5),
+(26, 'DJEZZYZID50', 'DJEZZY ZID 50', 'BUNDLE', 50, 1, 44640, 50, 99999, 0.5, 5),
+(27, 'DJEZZYZID200', 'DJEZZY ZID 200', 'BUNDLE', 200, 7, 44640, 200, 99999, 2, 5),
+(28, 'DJEZZYZID400', 'DJEZZY ZID 400', 'BUNDLE', 400, 15, 44640, 500, 99999, 4, 5),
+(29, 'DJEZZYZID800', 'DJEZZY ZID 800', 'BUNDLE', 800, 30, 44640, 1000, 99999, 8, 5),
+(30, 'IZZY300', 'IZZY 300', 'BUNDLE', 300, 15, 44640, 0, 99999, 3, 6),
+(31, 'IZZY1200', 'IZZY 1200', 'BUNDLE', 1200, 30, 44640, 1000, 99999, 10, 6),
+(32, 'IZZY500', 'IZZY 500', 'BUNDLE', 500, 30, 44640, 0, 99999, 5, 6),
+(33, 'IZZY50', 'IZZY 50', 'BUNDLE', 50, 1, 44640, 0, 99999, 1, 6);
 
 -- --------------------------------------------------------
 
@@ -287,7 +301,26 @@ INSERT INTO `sales` (`idSale`, `userId`, `MSISDN`, `operationId`, `price`, `date
 (36, 1, 799554386, 5, 500, '2023-06-05 23:24:13', 'Activation'),
 (37, 1, 799554386, 5, 500, '2023-06-05 23:25:24', 'Activation'),
 (38, 1, 799554386, 5, 500, '2023-06-05 23:28:15', 'Activation'),
-(39, 1, 779797539, 6, 2000, '2023-06-07 10:22:58', 'Activation');
+(39, 1, 779797539, 6, 2000, '2023-06-07 10:22:58', 'Activation'),
+(40, 1, 790959980, 6, 2000, '2023-06-09 17:41:13', 'Activation'),
+(41, 1, 790959980, 5, 500, '2023-06-09 17:41:20', 'Activation'),
+(45, 1, 778811898, NULL, 0, '2023-06-09 19:31:29', 'Migration'),
+(46, 1, 790959980, NULL, 0, '2023-06-09 19:37:51', 'Migration'),
+(47, 1, 790959980, 10, 2000, '2023-06-09 19:47:14', 'Activation'),
+(48, 1, 790959980, 13, 500, '2023-06-09 19:47:25', 'Activation'),
+(49, 1, 790959980, 13, 500, '2023-06-09 19:48:15', 'Activation'),
+(50, 1, 799554386, NULL, 0, '2023-06-10 10:43:37', 'Migration'),
+(51, 1, 799554386, 11, 100, '2023-06-10 10:44:10', 'Activation'),
+(52, 1, 799554386, NULL, 0, '2023-06-10 10:56:51', 'Migration'),
+(53, 1, 799554386, 5, 500, '2023-06-10 10:56:57', 'Activation'),
+(54, 1, 799554386, 4, 150, '2023-06-10 16:41:58', 'Activation'),
+(55, 1, 799554386, 1, 100, '2023-06-10 16:43:32', 'Activation'),
+(56, 1, 799554386, NULL, 0, '2023-06-10 16:43:54', 'Migration'),
+(57, 1, 799554386, 10, 2000, '2023-06-10 16:44:10', 'Activation'),
+(58, 1, 799554386, 11, 100, '2023-06-10 16:44:55', 'Activation'),
+(59, 1, 799554386, NULL, 0, '2023-06-14 22:30:21', 'Migration'),
+(60, 1, 799554386, NULL, 0, '2023-06-14 22:31:06', 'Migration'),
+(61, 1, 799554386, NULL, 0, '2023-06-14 22:32:27', 'Migration');
 
 -- --------------------------------------------------------
 
@@ -373,7 +406,7 @@ CREATE TABLE `subscriptions` (
 --
 
 INSERT INTO `subscriptions` (`id`, `subscriptionTypeId`, `subscriberId`, `MSISDN`, `balance`) VALUES
-(1, 3, 2, 799554386, 20200),
+(1, 5, 2, 799554386, 17250),
 (2, 4, 3, 790959980, 0),
 (3, 3, 4, 793831117, 1360),
 (4, 3, 6, 742297006, 0),
@@ -415,7 +448,7 @@ INSERT INTO `subscriptiontypes` (`id`, `subscriptionType`, `commercialName`, `se
 (3, 'haylabezzef', 'Hayla Bezzef', 1),
 (4, 'haylamaxi', 'Hayla Maxi', 1),
 (5, 'djezzyzid', 'Djezzy Zid', 1),
-(6, 'youthoffer', 'Offre Jeune', 1),
+(6, 'youthoffer', 'IZZY', 1),
 (7, 'b2cconforthyb', 'Djezzy Confort Control', 2),
 (8, 'b2cconfortpost', 'Djezzy Confort Postpaye', 3),
 (9, 'b2bconforthyb', 'Djezzy Confort Control B2B', 5),
@@ -446,7 +479,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `firstName`, `lastName`, `registration`, `email`, `password`, `groupId`, `lastLogin`, `previousLogin`) VALUES
-(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, '2023-06-07 19:03:36', '2023-06-07 18:43:21'),
+(1, 'Mohamed Rachid', 'Mouci', 1964, 'rachidgames2.rg@gmail.com', '$2y$10$g4CSy236Tn71ZOV0IGZypeO1gCB5e1XahAKAgsM7Gai7QzyY/W/2G', 1, '2023-06-14 22:03:43', '2023-06-12 19:15:35'),
 (2, 'test', 'testets', 568, 'test@gmail.com', '$2y$10$ig.eT9yaB/F5ZMVM4UWp4eNWJ/G9veN1m3J.dY1/b39SxJ5vDYe8O', 1, NULL, NULL),
 (3, 'area', 'jhaeufhuaie', 4579, 'yes@gmail.com', '$2y$10$QaRC7xJRCcgGLTmDY3Kuhe0.rf6o1QfpwzMiL0/aSY0jeYaPRF5c2', 1, NULL, NULL),
 (5, 'Test', 'test again', 111, 'api@gmail.com', '$2y$10$mYOocjD.U8UPvxnDrG0ojey0xCrBTOYBhxybswBqbj7sd1l8uigvO', 1, NULL, NULL);
@@ -549,7 +582,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `consumptions`
 --
 ALTER TABLE `consumptions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT pour la table `groups`
@@ -561,7 +594,7 @@ ALTER TABLE `groups`
 -- AUTO_INCREMENT pour la table `packages`
 --
 ALTER TABLE `packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT pour la table `reclamations`
@@ -573,7 +606,7 @@ ALTER TABLE `reclamations`
 -- AUTO_INCREMENT pour la table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `idSale` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT pour la table `segments`
