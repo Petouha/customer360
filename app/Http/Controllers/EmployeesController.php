@@ -21,7 +21,7 @@ class EmployeesController extends Controller
         $salesList=DB::select("SELECT CONCAT(subscribers.firstName,' ',subscribers.lastName) AS fullName,sales.MSISDN,operationId,price,dateSale,saleType
         FROM sales JOIN users ON userId = users.id
         JOIN subscriptions ON subscriptions.MSISDN = sales.MSISDN
-        JOIN subscribers ON subscribers.id = subscriptions.id
+        JOIN subscribers ON subscriptions.subscriberId = subscribers.id
         WHERE userId=".$response[0]->id.";");
 
         return response()->json([
